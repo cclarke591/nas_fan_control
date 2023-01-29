@@ -13,3 +13,10 @@ The hard drive fans are connected to fan headers assigned to the hard drive temp
 See the scripts for more info and commentary.
 
 Discussion on the FreeNAS forums: https://forums.freenas.org/index.php?threads/pid-fan-controller-perl-script.50908/
+
+Regarding setting up on TrueNAS Core/FreeNAS:
+ssh in as root, or use the shell to clone the repo into your directory of choice.
+git clone https://github.com/cclarke591/nas_fan_control.git
+Go through and make the changes necessary to the system that you are using, in the configuration section.
+To test the script, use screen (Ctrl+a > d to escape the window, and screen -r to resume), or tmux (similar).
+To run on boot and as a service, go Tasks>Init/Shutdown Scripts, and make a PostInit Script for /root/nas_fan_control/start_fan_control.sh. Also maybe make the description of the script 'Fan Controller Script'.
