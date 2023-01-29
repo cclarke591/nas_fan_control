@@ -153,10 +153,10 @@ $hd_fan_duty_start     = 60; # HD fan duty cycle when script starts
 ## 0 means no debugging. 1,2,3,4 provide more verbosity
 ## You should run this script in at least level 1 to verify its working correctly on your system
 $debug = 0;
-$debug_log = '/root/Debug_PID_fan_control.log';
+$debug_log = '/root/nas_fan_control/Debug_PID_fan_control.log';
 
 ## LOG
-$log = '/root/PID_fan_control.log';
+$log = '/root/nas_fan_control/PID_fan_control.log';
 $log_temp_summary_only      = 0; # 1 if not logging individual HD temperatures.  0 if logging temp of each HD
 $log_header_hourly_interval = 2; # number of hours between log headers.  Valid options are 1, 2, 3, 4, 6 & 12.
                                  # log headers will always appear at the start of a log, at midnight and any 
@@ -223,8 +223,8 @@ $cpu_temp_control = 1;  # 1 if the script will control a CPU fan to control CPU 
 ## You need to determine the actual max fan speeds that are achieved by the fans
 ## Connected to the cpu_fan_header and the hd_fan_header.
 ## These values are used to verify high/low fan speeds and trigger a BMC reset if necessary.
-$cpu_max_fan_speed    = 1800;
-$hd_max_fan_speed     = 3300;
+$cpu_max_fan_speed    = 1900;
+$hd_max_fan_speed     = 1500;
 
 
 ## CPU FAN DUTY LEVELS
@@ -238,7 +238,7 @@ $fan_duty_low          =  30;
 $hd_fan_duty_high      = 100;    # percentage on, ie 100% is full speed.
 $hd_fan_duty_med_high  =  80;
 $hd_fan_duty_med_low   =  50;
-$hd_fan_duty_low       =  16;    # some 120mm fans stall below 30.
+$hd_fan_duty_low       =  20;    # some 120mm fans stall below 30.
 #$hd_fan_duty_start    =  60;    # HD fan duty cycle when script starts - defined in config file
 
 
@@ -259,7 +259,7 @@ $hd_fan_zone  = 1;
 ## The values that are set must match a working FAN header as seen in "ipmitool sdr" 
 ## cpu_fan_header should be in the cpu_fan_zone
 ## hd_fan_header should be in the hd_fan_zone
-$cpu_fan_header = "FAN2";                 # used for CPU Fan monitoring  and forprinting to standard output for debugging   
+$cpu_fan_header = "FAN1";                 # used for CPU Fan monitoring  and forprinting to standard output for debugging   
 $hd_fan_header  = "FANB";                 # used for HD Fan monitoring and printing to standard output for debugging   
 @hd_fan_list = ("FANA", "FANB", "FANC");  # used for logging to file  
 
@@ -280,16 +280,16 @@ $hd_polling_interval = 90;    # seconds
 ## FAN SPEED CHANGE DELAY TIME
 ## It takes the fans a few seconds to change speeds, we allow a grace before verifying. If we fail the verify
 ## we'll reset the BMC
-$fan_speed_change_delay = 10; # seconds
+$fan_speed_change_delay = 15; # seconds
 
 ## BMC REBOOT TIME
 ## It takes the BMC a number of seconds to reset and start providing sensible output. We'll only
 ## Reset the BMC if its still providing rubbish after this time.
-$bmc_reboot_grace_time = 120; # seconds
+$bmc_reboot_grace_time = 180; # seconds
 
 ## BMC RETRIES BEFORE REBOOTING
 ## We verify high/low of fans, and if they're not where they should be we reboot the BMC after so many failures
-$bmc_fail_threshold    = 1;     # will retry n times before rebooting
+$bmc_fail_threshold    = 3;     # will retry n times before rebooting
 
 # edit nothing below this line
 ########################################################################################################################
