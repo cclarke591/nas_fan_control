@@ -280,7 +280,7 @@ $hd_polling_interval = 90;    # seconds
 ## FAN SPEED CHANGE DELAY TIME
 ## It takes the fans a few seconds to change speeds, we allow a grace before verifying. If we fail the verify
 ## we'll reset the BMC
-$fan_speed_change_delay = 15; # seconds
+$fan_speed_change_delay = 10; # seconds
 
 ## BMC REBOOT TIME
 ## It takes the BMC a number of seconds to reset and start providing sensible output. We'll only
@@ -471,7 +471,7 @@ sub main
             $hd_fan_mode = get_fan_mode();
             printf(LOG "%6s", $hd_fan_mode);
 	    
-	    sleep 10; # pause 10s to allow fans to change speed after setting it
+	    sleep $fan_speed_change_delay; # pause 10s to allow fans to change speed after setting it
             $ave_fan_speed = get_fan_ave_speed(@hd_fan_list);
             printf(LOG "%6s", $ave_fan_speed);
             printf(LOG "%4i/%-3i", $hd_fan_duty_old, $hd_fan_duty);
@@ -1056,7 +1056,7 @@ sub set_fan_mode
     dprint( 1, "Setting fan mode to $mode ($fan_mode)\n");
     `$ipmitool raw 0x30 0x45 0x01 $mode`;
 
-    sleep 5;    #need to give the BMC some breathing room
+    sleep $fan_speed_change_delay;    #need to give the BMC some breathing room
 
     return;
 }    
